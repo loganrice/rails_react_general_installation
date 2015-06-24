@@ -6,7 +6,13 @@
   gem 'react-rails'
   ```
 
-2. Specify what React library to use. React comes with two variants:
+2. Run the react rails generator 
+
+  ```
+    rails g react:install
+  ```
+
+3. Specify what React library to use. React comes with two variants:
   * Production - removes browser console debugging messages
   ```ruby
   #config/environments/production.rb
@@ -21,7 +27,8 @@
 
   config.react.variant = :development
   ```
-3. Use React addons to provide a means for testing react components
+
+4. Use React addons to provide a means for testing react components
 
   ```ruby
   #config/application.rb
