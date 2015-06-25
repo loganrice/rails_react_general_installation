@@ -8,7 +8,24 @@ var CommentBox = React.createClass({
         this.setState({data:data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.state.url, status, err.toString());
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function(comment) {
+    var comments = this.state.data;
+    var newComments = comments.concat([comment]);
+    this.setState({data: newComments});
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: {comment: comment},
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
@@ -24,7 +41,7 @@ var CommentBox = React.createClass({
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
       </div>
     );
   }
@@ -49,11 +66,25 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var comment = React.findDOMNode(this.refs.comment).value.trim();
+    if (!comment || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({author: author, comment: comment}); 
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.comment).value = '';
+    return;
+  },
   render: function() {
     return (
-        <div className="commentList">
-          Hello, world. I am a comment form
-        </div>
+        <form className="commentList" onSubmit={this.handleSubmit}>
+          <input type="text" placeholder="Your name" ref="author"/>
+          <input type="text" placeholder="Say something..." ref="comment"/>
+          <input type="submit" value="Post" />
+        </form>
     );
   }
 });
@@ -72,9 +103,9 @@ var Comment = React.createClass({
   }
 });
 
-$(document).ready(function() {
+$(document).on('ready page:load', function() {
   React.render(
     <CommentBox url="comments.json" pollInterval={2000} />, 
-    document.getElementById("content")
+    document.getElementById("comments")
   );
 });

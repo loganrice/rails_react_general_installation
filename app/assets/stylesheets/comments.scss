@@ -1,3 +1,14 @@
 // Place all the styles related to the Comments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.comment {
+  border: 1px dashed #ccc;
+  margin: 15px auto;
+  padding: 20px;
+  width: 500px;
+  &:hover {
+    color: rgba(0,39,59,.35);
+    background-color: rgba(200,200,200,.1);
+    border-style: solid;
+  }
+}
