@@ -36,7 +36,13 @@
   config.react.addons = true
   ```
 
-4. Add react to application.js
+5. Add --harmony option to use ES6 
+  ```ruby
+  #config/application.rb
+  config.react.jsx_transform_options = { harmony: true }
+  ```
+
+6. Add react to application.js
 
   ```ruby
   #app/assets/javascripts/application.js

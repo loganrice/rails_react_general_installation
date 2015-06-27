@@ -9,6 +9,8 @@ Bundler.require(*Rails.groups)
 module RailsReactGeneralInstallation
   class Application < Rails::Application
     config.react.addons = true
+    config.react.jsx_transform_options = { harmony: true }
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
